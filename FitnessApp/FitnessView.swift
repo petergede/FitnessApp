@@ -8,11 +8,29 @@
 import SwiftUI
 
 struct FitnessView: View {
+    @EnvironmentObject var manager: HealthManager
+    @State var selectedTab = "Home"
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        TabView(selection: $selectedTab) {
+            HomeView()
+                .tag("Home")
+                .tabItem {
+                    Image(systemName:"house")
+                }
+                .environmentObject(manager)
+            
+            ContentView()
+                .tag("Content")
+                .tabItem {Image(systemName: "person")
+                }
+        }
     }
+    
 }
 
-#Preview {
-    FitnessView()
+struct FitnessView_Previews: PreviewProvider {
+    static var previews: some View{
+        FitnessView()
+    }
 }

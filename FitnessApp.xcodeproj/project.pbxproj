@@ -14,6 +14,10 @@
 		B113C8172BBD7263001A973D /* FitnessAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B113C8162BBD7263001A973D /* FitnessAppTests.swift */; };
 		B113C8212BBD7263001A973D /* FitnessAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B113C8202BBD7263001A973D /* FitnessAppUITests.swift */; };
 		B113C8232BBD7263001A973D /* FitnessAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B113C8222BBD7263001A973D /* FitnessAppUITestsLaunchTests.swift */; };
+		B161B7862BBD85EA00CD47FF /* FitnessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B7852BBD85EA00CD47FF /* FitnessView.swift */; };
+		B161B78A2BBD878B00CD47FF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B7892BBD878B00CD47FF /* HomeView.swift */; };
+		B161B78C2BBD883600CD47FF /* ActivityCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B78B2BBD883600CD47FF /* ActivityCard.swift */; };
+		B161B7902BBD931000CD47FF /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B78F2BBD931000CD47FF /* HealthManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +49,10 @@
 		B113C81C2BBD7263001A973D /* FitnessAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FitnessAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B113C8202BBD7263001A973D /* FitnessAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessAppUITests.swift; sourceTree = "<group>"; };
 		B113C8222BBD7263001A973D /* FitnessAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B161B7852BBD85EA00CD47FF /* FitnessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitnessView.swift; sourceTree = "<group>"; };
+		B161B7892BBD878B00CD47FF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		B161B78B2BBD883600CD47FF /* ActivityCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityCard.swift; sourceTree = "<group>"; };
+		B161B78F2BBD931000CD47FF /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +108,10 @@
 				B113C8082BBD7263001A973D /* Assets.xcassets */,
 				B113C80A2BBD7263001A973D /* FitnessApp.entitlements */,
 				B113C80B2BBD7263001A973D /* Preview Content */,
+				B161B7852BBD85EA00CD47FF /* FitnessView.swift */,
+				B161B7892BBD878B00CD47FF /* HomeView.swift */,
+				B161B78B2BBD883600CD47FF /* ActivityCard.swift */,
+				B161B78F2BBD931000CD47FF /* HealthManager.swift */,
 			);
 			path = FitnessApp;
 			sourceTree = "<group>";
@@ -260,7 +272,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B113C8072BBD7262001A973D /* ContentView.swift in Sources */,
+				B161B7902BBD931000CD47FF /* HealthManager.swift in Sources */,
+				B161B78A2BBD878B00CD47FF /* HomeView.swift in Sources */,
 				B113C8052BBD7262001A973D /* FitnessAppApp.swift in Sources */,
+				B161B7862BBD85EA00CD47FF /* FitnessView.swift in Sources */,
+				B161B78C2BBD883600CD47FF /* ActivityCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +440,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to enjoy the app";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -462,6 +479,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow access to enjoy the app";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
