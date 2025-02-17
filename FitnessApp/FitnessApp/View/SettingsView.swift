@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct SettingsView: View {
-    // MARK: - PROPERTIES
+    // PROPERTIES
     
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var iconSettings: IconNames
@@ -20,15 +20,15 @@ struct SettingsView: View {
     @ObservedObject var theme = ThemeSettings.shared
     @State private var isThemeChanged: Bool = false
     
-    // MARK: - BODY
+    //BODY
     
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 0) {
-                // MARK: - FORM
+                //  FORM
                 
                 Form {
-                    // MARK: - SECTION 1
+                    //SECTION 1
                     
                     Section(header: Text("Choose the app icon")) {
                         Picker(selection: $iconSettings.currentIndex, label:
@@ -51,7 +51,7 @@ struct SettingsView: View {
                         ) {
                             ForEach(0..<iconSettings.iconNames.count) { index in
                                 HStack {
-                                    Image(uiImage: UIImage(named: self.iconSettings.iconNames[index] ?? "Blue") ?? UIImage())
+                                    Image(uiImage: UIImage(named: self.iconSettings.iconNames[index] ?? "Patras Beat") ?? UIImage())
                                         .renderingMode(.original)
                                         .resizable()
                                         .scaledToFit()
@@ -60,7 +60,7 @@ struct SettingsView: View {
                                     
                                     Spacer().frame(width: 8)
                                     
-                                    Text(self.iconSettings.iconNames[index] ?? "Blue")
+                                    Text(self.iconSettings.iconNames[index] ?? "Default")
                                         .frame(alignment: .leading)
                                 } //: HSTACK
                                 .padding(3)
@@ -124,11 +124,11 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - PREIVEW
+//PREIVEW
 
 struct SettingsView_Previews: PreviewProvider {
   static var previews: some View {
     SettingsView().environmentObject(IconNames())
-      .previewDevice("iPhone 12 Pro")
+      .previewDevice("iPhone 14 Pro")
   }
 }

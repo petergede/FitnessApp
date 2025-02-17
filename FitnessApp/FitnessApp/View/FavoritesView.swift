@@ -8,11 +8,32 @@
 import SwiftUI
 
 struct FavoritesView: View {
+    @ObservedObject var viewModel = EventManager()
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List(viewModel.events.filter { $0.isFavorite ?? false }) { event in
+            HStack {
+                Base64ImageView(base64String: event.titleImage.base64)
+                    .frame(width: 100, height: 100)
+                VStack(alignment: .leading) {
+                    Text(event.name)
+                        .font(.headline)
+                    Text(event.date)
+                        .font(.subheadline)
+                }
+                Spacer()
+                Button(action: {
+                    viewModel.toggleFavorite(for: event)
+                }) {
+                    Image(systemName: event.isFavorite ?? false ? "heart.fill" : "heart")
+                        .foregroundColor(event.isFavorite ?? false ? .red : .gray)
+                }
+            }
+        }
     }
 }
 
 #Preview {
     FavoritesView()
 }
+

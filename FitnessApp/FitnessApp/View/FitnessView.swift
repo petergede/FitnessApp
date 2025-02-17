@@ -27,7 +27,7 @@ struct FitnessView: View {
                     Image(systemName:"chart.line.uptrend.xyaxis")
                 }
             
-            NewPointAdditionView()
+            LocationsMap()
                 .environmentObject(manager)
                 .tag("Map")
                 .tabItem {
@@ -40,13 +40,30 @@ struct FitnessView: View {
                 .tabItem {
                     Image(systemName:"calendar")
                 }
-            NewPointAdditionView()
-                .tag("Add point")
-                .tabItem {Image(systemName: "mappin.and.ellipse")
+            StadiumContentView()
+                .tag("View Stadiums")
+                .tabItem {
+                    Label("Add point", systemImage: "mappin.and.ellipse")
                 }
-            ContentView()
+            ProfileView()
                 .tag("Content")
-                .tabItem {Image(systemName: "person")
+                .tabItem {
+                    Label("Profile", systemImage: "person")
+                }
+            LocationListView()
+                .tag("View locations")
+                .tabItem {
+                    Label("View locations", systemImage: "mappin.circle.fill")
+                }
+            FavoritesView()
+                .tag("Favorite events")
+                .tabItem {
+                    Label("Favorite events", systemImage: "heart.fill")
+                }
+            SettingsView()
+                .tag("Configure icon")
+                .tabItem {
+                    Label("Configure icon", systemImage: "gearshape")
                 }
         }
     }

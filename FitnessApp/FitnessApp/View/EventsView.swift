@@ -24,6 +24,7 @@ struct Event: Codable, Identifiable {
     var sports: String
     var reviewsOverview: ReviewsOverview
     var titleImage: TitleImage
+    var isFavorite: Bool? // Default value, not part of the Codable
 }
 
 struct ReviewsOverview: Codable {
@@ -39,12 +40,10 @@ struct TitleImage: Codable {
 struct EventsView: View {
     @ObservedObject var viewModel = EventManager()
     
-    
     var body: some View {
         VStack {
             List(viewModel.events) { event in
                 HStack {
-                    // Display the image
                     Base64ImageView(base64String: event.titleImage.base64)
                         .frame(width: 100, height: 100)
                     VStack(alignment: .leading) {
@@ -52,11 +51,16 @@ struct EventsView: View {
                             .font(.headline)
                         Text(event.date)
                             .font(.subheadline)
-                        // Include other event details as desired
+                    }
+                    Spacer()
+                    Button(action: {
+                        viewModel.toggleFavorite(for: event)
+                    }) {
+                        Image(systemName: event.isFavorite ?? false ? "heart.fill" : "heart")
+                            .foregroundColor(event.isFavorite ?? false ? .red : .gray)
                     }
                 }
             }
-            
             Button(action: {
                 viewModel.toggleEvents()
             }) {
@@ -68,7 +72,7 @@ struct EventsView: View {
             }
         }
         .onAppear {
-            viewModel.fetchEvents() // Load the initial dataset when the view appears
+            viewModel.fetchEvents()
         }
     }
 }

@@ -1,18 +1,22 @@
+//
+//  LoginView.swift
+//  FitnessApp
+//
+//  Created by Petros Gedekakis on 14/9/24.
+//
+
 import SwiftUI
 
-struct RegistrationView: View {
+struct LoginView: View {
     @State private var email = ""
-    @State private var fullname = ""
     @State private var password = ""
-    @State private var confirmPassword = ""
+    @EnvironmentObject var viewModel: AuthViewModel
     @State private var showAlert = false
     @State private var errorMessage = ""
     @State private var isLoading = false
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var viewModel: AuthViewModel
-
+    
     var body: some View {
-        ZStack {
+        NavigationStack {
             VStack {
                 // image
                 Image("login-icon")
@@ -20,51 +24,28 @@ struct RegistrationView: View {
                     .scaledToFill()
                     .frame(width: 100, height: 120)
                     .padding(.vertical, 32)
-
+                
+                // form fields
                 VStack(spacing: 24) {
                     InputView(text: $email,
                               title: "Email Address",
                               placeholder: "name@example.com")
                     .autocapitalization(.none)
-
-                    InputView(text: $fullname,
-                              title: "Full Name",
-                              placeholder: "Enter your name")
-
+                    
                     InputView(text: $password,
                               title: "Password",
                               placeholder: "Enter your password",
                               isSecureField: true)
-
-                    ZStack(alignment: .trailing) {
-                        InputView(text: $confirmPassword,
-                                  title: "Confirm Password",
-                                  placeholder: "Confirm your password",
-                                  isSecureField: true)
-
-                        if !password.isEmpty && !confirmPassword.isEmpty {
-                            if password == confirmPassword {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .imageScale(.large)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color(.systemGreen))
-                            } else {
-                                Image(systemName: "xmark.circle.fill")
-                                    .imageScale(.large)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color(.systemRed))
-                            }
-                        }
-                    }
                 }
                 .padding(.horizontal)
                 .padding(.top, 12)
-
+                
+                // sign in button
                 Button {
                     isLoading = true
                     Task {
                         do {
-                            try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                            try await viewModel.signIn(withEmail: email, password: password)
                         } catch {
                             errorMessage = error.localizedDescription
                             showAlert = true
@@ -73,7 +54,7 @@ struct RegistrationView: View {
                     }
                 } label: {
                     HStack {
-                        Text("SIGN UP")
+                        Text("SIGN IN")
                             .fontWeight(.semibold)
                         Image(systemName: "arrow.right")
                     }
@@ -85,32 +66,34 @@ struct RegistrationView: View {
                 .opacity(formIsValid ? 1.0 : 0.5)
                 .cornerRadius(10)
                 .padding(.top, 24)
-
+                
+                
                 Spacer()
-
-                Button {
-                    dismiss()
+                
+                // sign up button
+                NavigationLink {
+                    RegistrationView()
+                        .navigationBarBackButtonHidden(true)
                 } label: {
-                    HStack(spacing: 3) {
-                        Text("Already have an account?")
-                        Text("Sign in")
-                            .fontWeight(.bold)
+                    HStack(spacing: 3){
+                        Text("Don't have an account?")
+                        Text("Sign up")
+                            .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
                     }
                     .font(.system(size: 14))
                 }
             }
-
             // Loading Overlay
             if isLoading {
-                Color.black.opacity(0.4)
+                Color.black.opacity(0.4) // Dim background
                     .edgesIgnoringSafeArea(.all)
-
+                
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     .scaleEffect(1.5)
             }
         }
-        .alert("Registration Failed", isPresented: $showAlert) {
+        .alert("Login Failed", isPresented: $showAlert) {
             Button("OK", role: .cancel) { }
         } message: {
             Text(errorMessage)
@@ -118,17 +101,17 @@ struct RegistrationView: View {
     }
 }
 
-extension RegistrationView: AuthenticationFormProtocol {
-    var formIsValid: Bool {
+extension LoginView: AuthenticationFormProtocol{
+    var formIsValid: Bool{
         return !email.isEmpty
         && email.contains("@")
         && !password.isEmpty
         && password.count >= 5
-        && confirmPassword == password
-        && !fullname.isEmpty
     }
 }
 
-#Preview {
-    RegistrationView()
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginView()
+    }
 }
