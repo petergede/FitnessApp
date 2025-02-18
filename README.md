@@ -1,0 +1,1 @@
+This is an ongoing iOS application. It's purpose is to help people train and exercise easier by indicating them gyms,parks,stadiums or even swimming pools. Right now it is base only from the city of Patras in Greece. Also it shows your activity based on the Apple Health(from Apple Watch or iPhone) and depending on your gym subscription it recommends places for training.
