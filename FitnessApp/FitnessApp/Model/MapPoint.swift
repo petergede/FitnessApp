@@ -1,15 +1,13 @@
 //
-//  Locations.swift
+//  MapPoint.swift
 //  FitnessApp
 //
-//  Created by Petros Gedekakis on 23/4/24.
+//  Created by Petros Gedekakis on 18/2/25.
 //
 
 import Foundation
-import SwiftData
 
-@Model
-class Location: Identifiable {
+class MapPoint: Identifiable, Codable {
     
     var id:String
     var name: String
@@ -19,8 +17,8 @@ class Location: Identifiable {
     var lon: Double
     var associate: Int
     
-    init(name: String, price: Double, information: String, lat: Double, lon: Double,associate: Int) {
-        self.id = UUID().uuidString
+    init(id: String = UUID().uuidString,name: String = UUID().uuidString, price: Double, information: String, lat: Double, lon: Double,associate: Int) {
+        self.id = id
         self.name = name
         self.price = price
         self.information = information

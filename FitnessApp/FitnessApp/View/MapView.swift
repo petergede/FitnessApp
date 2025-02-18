@@ -117,41 +117,45 @@ class Coordinator: NSObject, MKMapViewDelegate {
 
 //View that fetch the data and displays the map
 struct LocationsMap: View {
-    @Environment(\.managedObjectContext) private var managedObjectContext
-    @FetchRequest(
-        entity: TrainingLocation.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \TrainingLocation.name, ascending: true)]
-    ) var locations: FetchedResults<TrainingLocation>
-    
+    @EnvironmentObject var viewModel: AuthViewModel
     @ObservedObject private var locationManager = LocationManager()
-    
+
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 38.246640, longitude: 21.734574),
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
     
+    @State private var locations: [MapPoint] = [] // Firestore locations
+
     var body: some View {
         MapView(
             annotations: locations.map { location in
                 LocationAnnotation(
-                    title: location.name ?? "Unknown Location",
-                    locationName: location.name ?? "No description",
-                    associate: location.associate ?? "None",
+                    title: location.name,
+                    locationName: location.information,
+                    associate: associateName(for: location.associate),
                     price: location.price,
-                    latitude: location.latitude,
-                    longitude: location.longitude
+                    latitude: Float(location.lat),
+                    longitude: Float(location.lon)
                 )
             },
             region: $region
         )
         .edgesIgnoringSafeArea(.all)
         .onAppear {
-            if let userLocation = locationManager.location?.coordinate {
-                region = MKCoordinateRegion(
-                    center: userLocation,
-                    span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-                )
+            Task {
+                await viewModel.fetchLocations()
+                locations = viewModel.locations // Update map annotations
             }
+        }
+    }
+
+    private func associateName(for tag: Int) -> String {
+        switch tag {
+        case 1: return "Yava"
+        case 2: return "Fitness Club"
+        case 3: return "International Club"
+        default: return "Unknown"
         }
     }
 }

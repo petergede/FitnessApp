@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCy_yH5TBDv_KVipg1JLnmqJIQrTOMecQU</string>
+	<string>AIzaSyBHqIXAWtCbceiS4wltFZhBNBcHcf3HZg8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>1096228128148</string>
+	<string>647421745754</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.gentekakis.FitnessApp</string>
 	<key>PROJECT_ID</key>
-	<string>patrasbeatswiftui</string>
+	<string>allgonetofire</string>
 	<key>STORAGE_BUCKET</key>
-	<string>patrasbeatswiftui.firebasestorage.app</string>
+	<string>allgonetofire.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1096228128148:ios:25ec15020b3937647ebb81</string>
+	<string>1:647421745754:ios:71a72c7680956267b01663</string>
 </dict>
 </plist>

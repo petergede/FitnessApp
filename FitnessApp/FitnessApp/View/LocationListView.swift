@@ -5,6 +5,7 @@
 //  Created by Petros Gedekakis on 24/4/24.
 //
 
+//MARK: NO USE
 import SwiftUI
 import SwiftData
 
@@ -49,13 +50,13 @@ struct LocationListView: View {
     }
 
     func addLocation() {
-        let location = Location(name: "Test Location", price: 10, information: "Information", lat: 32, lang: 35,associate: 0)
+        let location = Location(name: "Test Location", price: 10, information: "Information", lat: 32, lon: 35,associate: 0)
         // Add the item to the data context
          context.insert(location)
     }
     
     func addNewLocation() {
-        let location = Location(name: "", price: 0, information: "", lat: 0, lang: 0,associate: 0)
+        let location = Location(name: "", price: 0, information: "", lat: 0, lon: 0,associate: 0)
         // Add the item to the data context
          context.insert(location)
          path = [location]

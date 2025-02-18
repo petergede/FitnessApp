@@ -1,3 +1,9 @@
+//
+//  User.swift
+//  FitnessApp
+//
+//  Created by Petros Gedekakis on 17/2/25.
+//
 import SwiftUI
 
 struct RegistrationView: View {
@@ -8,6 +14,8 @@ struct RegistrationView: View {
     @State private var showAlert = false
     @State private var errorMessage = ""
     @State private var isLoading = false
+    @State private var selectedMembership = "Basic" // New State for Membership
+    let membershipOptions = ["Basic", "Standard", "Premium"]
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: AuthViewModel
 
@@ -56,6 +64,15 @@ struct RegistrationView: View {
                             }
                         }
                     }
+
+                    // Membership Dropdown Picker
+                    Picker("Membership", selection: $selectedMembership) {
+                        ForEach(membershipOptions, id: \.self) { membership in
+                            Text(membership).tag(membership)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle())
+                    .padding(.horizontal)
                 }
                 .padding(.horizontal)
                 .padding(.top, 12)
@@ -64,7 +81,13 @@ struct RegistrationView: View {
                     isLoading = true
                     Task {
                         do {
-                            try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                            try await viewModel.createUser(
+                                withEmail: email,
+                                password: password,
+                                fullname: fullname,
+                                isAdmin: false, //since we create a user
+                                membership: selectedMembership // Pass Membership
+                            )
                         } catch {
                             errorMessage = error.localizedDescription
                             showAlert = true

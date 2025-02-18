@@ -6,106 +6,91 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct EditLocationView: View {
-    @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var location: TrainingLocation
-    
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var viewModel: AuthViewModel
+
+    var location: MapPoint
+
+    @State private var name: String
+    @State private var price: Double
+    @State private var information: String
+    @State private var lat: Double
+    @State private var lon: Double
+    @State private var associate: Int
+
+    let associates = ["Yava", "Fitness Club", "International Club"]
+
     // THEME
-    
     @ObservedObject var theme = ThemeSettings.shared
     var themes: [Theme] = themeData
-    
-    let associates = ["Yava", "Fitness Club", "International Club"]
-    
+
+    init(location: MapPoint) {
+        self.location = location
+        _name = State(initialValue: location.name)
+        _price = State(initialValue: location.price)
+        _information = State(initialValue: location.information)
+        _lat = State(initialValue: location.lat)
+        _lon = State(initialValue: location.lon)
+        _associate = State(initialValue: location.associate)
+    }
+
     var body: some View {
         NavigationView {
             Form {
-                HStack {
-                    Text("Name:")
-                        .foregroundColor(.secondary)
-                    TextField("Enter name", text: Binding(
-                        get: { self.location.name ?? "" },
-                        set: { self.location.name = $0 }
-                    ))
+                TextField("Name", text: $name)
+
+                Picker("Associate", selection: $associate) {
+                    Text("Yava").tag(1)
+                    Text("Fitness Club").tag(2)
+                    Text("International Club").tag(3)
                 }
-                
-                HStack {
-                    Text("Associate:")
-                        .foregroundColor(.secondary)
-                    Picker("Select Associate", selection: Binding(
-                        get: { self.location.associate ?? associates.first ?? "" },
-                        set: { self.location.associate = $0 }
-                    )) {
-                        ForEach(associates, id: \.self) { associate in
-                            Text(associate).tag(associate)
-                        }
-                    }
-                    .pickerStyle(MenuPickerStyle())  // or WheelPickerStyle() based on your preference
-                }
-                
-                HStack {
-                    Text("Price:")
-                        .foregroundColor(.secondary)
-                    TextField("Enter price", text: Binding(
-                        get: { String(format: "%.2f", self.location.price) },
-                        set: { self.location.price = Double($0) ?? 0 }
-                    ))
+                .pickerStyle(SegmentedPickerStyle())
+
+                TextField("Price", value: $price, format: .number)
                     .keyboardType(.decimalPad)
-                }
-                
-                HStack {
-                    Text("Latitude:")
-                        .foregroundColor(.secondary)
-                    TextField("Enter latitude", text: Binding(
-                        get: { String(self.location.latitude) },
-                        set: { self.location.latitude = Float($0) ?? 0 }
-                    ))
+
+                TextField("Information", text: $information)
+
+                TextField("Latitude", value: $lat, format: .number)
                     .keyboardType(.decimalPad)
-                }
-                
-                HStack {
-                    Text("Longitude:")
-                        .foregroundColor(.secondary)
-                    TextField("Enter longitude", text: Binding(
-                        get: { String(self.location.longitude) },
-                        set: { self.location.longitude = Float($0) ?? 0 }
-                    ))
+
+                TextField("Longitude", value: $lon, format: .number)
                     .keyboardType(.decimalPad)
-                }
-                
-                // Update Button
+
                 Button(action: {
-                    if self.location.name != "" {
-                        // If the location is not already in the managed object context, add it.
-                        if self.location.managedObjectContext == nil {
-                            self.managedObjectContext.insert(self.location)
-                        }
-                        
-                        // Attempt to save changes or new entry
+                    Task {
+                        let updatedLocation = MapPoint(
+                            id: location.id,
+                            name: name,
+                            price: price,
+                            information: information,
+                            lat: lat,
+                            lon: lon,
+                            associate: associate
+                        )
+
                         do {
-                            try self.managedObjectContext.save()
+                            try await viewModel.updateLocation(updatedLocation)
+                            await viewModel.fetchLocations() // Optional refresh after update
+                            dismiss()
                         } catch {
-                            print("Failed to save managed object context: \(error)")
+                            print("Failed to update location: \(error.localizedDescription)")
                         }
-                        self.presentationMode.wrappedValue.dismiss()
-                    } else {
-                        // Handle the error for empty name
-                        print("Invalid name. Please enter a name for the location.")
                     }
                 }) {
                     Text("Update")
-                        .font(.system(size: 24, weight: .bold, design: .default))
+                        .font(.system(size: 24, weight: .bold))
+                        .frame(maxWidth: .infinity)
                         .padding()
-                        .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(themes[self.theme.themeSettings].themeColor)
+                        .background(themes[theme.themeSettings].themeColor)
                         .cornerRadius(9)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(.white)
                 }
             }
-            .navigationBarTitle("Edit Location", displayMode: .inline)
+            .navigationTitle("Edit Location")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
